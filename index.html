@@ -30,9 +30,12 @@
         };
 
         // Get the 'md' parameter from the URL
-        var markdownText = getUrlParameter('md');
-
-        if (markdownText) {
+        (async function () {
+            var markdownText = getUrlParameter('md');
+            if (!markdownText) {
+                markdownText = await fetch("https://raw.githubusercontent.com/Kitware/markdown-viewer/main/README.md");
+            }
+    
             // Initialize markdown-it
             var md = window.markdownit();
 
@@ -41,9 +44,7 @@
 
             // Insert the rendered HTML into the page
             document.getElementById('content').innerHTML = result;
-        } else {
-            document.getElementById('content').innerHTML = '<p>No markdown text provided.</p>';
-        }
+        })();
     </script>
 </body>
 </html>
