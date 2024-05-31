@@ -33,7 +33,7 @@
         (async function () {
             var markdownText = getUrlParameter('md');
             if (!markdownText) {
-                markdownText = await fetch("https://raw.githubusercontent.com/Kitware/markdown-viewer/main/README.md");
+                markdownText = await (await fetch("https://raw.githubusercontent.com/Kitware/markdown-viewer/main/README.md")).text();
             }
     
             // Initialize markdown-it
