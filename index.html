@@ -45,12 +45,15 @@
         // Get the 'md' parameter from the URL
         (async function () {
             var compressedMarkdownText = getUrlParameter('mdz');
-
-            // Decode the base64 string to a Uint8Array
-            var compressedMarkdown = base64ToUint8Array(compressedMarkdownBase64);
-
-            // Decompress the Uint8Array using pako
-            var markdownText = pako.inflate(compressedMarkdown, { to: 'string' });
+            var markdownText;
+            
+            if (compressedMarkdownText) {
+                // Decode the base64 string to a Uint8Array
+                var compressedMarkdownData = base64ToUint8Array(compressedMarkdownText);
+    
+                // Decompress the Uint8Array using pako
+                markdownText = pako.inflate(compressedMarkdownData, { to: 'string' });
+            }
 
             if (!markdownText) {
                 markdownText = getUrlParameter('md');
