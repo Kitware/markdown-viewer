@@ -1,6 +1,14 @@
 # markdown-viewer
 Tiny utility to render markdown sent as a URL parameter
 
+## Why?
+
+In the age of Markdown-producing AI chatbots, you may want to store responses derived from each row in a spreadsheet in a new data column.
+These cells are unweildy to inspect as the markdown text becomes long.
+This static site enables adding a URL column to your spreadsheet which when visited will render some markdown. That is all this site does.
+
+When no text is provided, it displays the `README.md` of the [source repository](https://github.com/Kitware/markdown-viewer).
+
 ## Usage
 
 To use the Markdown Viewer, simply append your Markdown text to the URL as a `md` parameter. The Markdown text must be URL-encoded.
