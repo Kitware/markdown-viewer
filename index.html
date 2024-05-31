@@ -60,7 +60,7 @@
             }
 
             if (!markdownText) {
-                markdownText = await (await fetch("https://raw.githubusercontent.com/Kitware/markdown-viewer/main/README.md")).text();
+                markdownText = await (await fetch("README.md")).text();
             }
     
             // Initialize markdown-it
