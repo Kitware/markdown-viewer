@@ -20,6 +20,7 @@
 
     <!-- Include markdown-it from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"></script>
     <script>
         // Function to get URL parameter
         function getUrlParameter(name) {
@@ -29,9 +30,32 @@
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         };
 
+        // Function to decode base64
+        function base64ToUint8Array(base64) {
+            var raw = window.atob(base64);
+            var rawLength = raw.length;
+            var array = new Uint8Array(new ArrayBuffer(rawLength));
+
+            for (var i = 0; i < rawLength; i++) {
+                array[i] = raw.charCodeAt(i);
+            }
+            return array;
+        }
+
         // Get the 'md' parameter from the URL
         (async function () {
-            var markdownText = getUrlParameter('md');
+            var compressedMarkdownText = getUrlParameter('mdz');
+
+            // Decode the base64 string to a Uint8Array
+            var compressedMarkdown = base64ToUint8Array(compressedMarkdownBase64);
+
+            // Decompress the Uint8Array using pako
+            var markdownText = pako.inflate(compressedMarkdown, { to: 'string' });
+
+            if (!markdownText) {
+                markdownText = getUrlParameter('md');
+            }
+
             if (!markdownText) {
                 markdownText = await (await fetch("https://raw.githubusercontent.com/Kitware/markdown-viewer/main/README.md")).text();
             }
