@@ -1,1 +1,49 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Renderer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #content {
+            max-width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="content"></div>
+
+    <!-- Include markdown-it from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"></script>
+    <script>
+        // Function to get URL parameter
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+
+        // Get the 'md' parameter from the URL
+        var markdownText = getUrlParameter('md');
+
+        if (markdownText) {
+            // Initialize markdown-it
+            var md = window.markdownit();
+
+            // Render the Markdown text
+            var result = md.render(markdownText);
+
+            // Insert the rendered HTML into the page
+            document.getElementById('content').innerHTML = result;
+        } else {
+            document.getElementById('content').innerHTML = '<p>No markdown text provided.</p>';
+        }
+    </script>
+</body>
+</html>
